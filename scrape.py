@@ -43,21 +43,21 @@ def extract_data(soup):
     data = {}
     data['id'] = "id"  # UUID はここでは生成できないので、"-" で代用
     data['course_name'] = soup.select_one('h1.color-jd').text.strip() if soup.select_one('h1.color-jd') else "-"
-    data['course_code'] = soup.select_one('span.detail-course-code').text.strip() if soup.select_one('span.detail-course-code') else "授業コード"
+    data['course_code'] = soup.select_one('//*[@id="catalog-main-container"]/div[5]/div/div/div[2]/div[1]/div[1]/div[2]').text.strip() if soup.select_one('//*[@id="catalog-main-container"]/div[5]/div/div/div[2]/div[1]/div[1]/div[2]') else "授業コード"
     data['department_id'] = "所属学部・学科のID"  # 所属学部・学科の ID は取得できないので、"-" で代用
     
-    semester_element = soup.select_one('table.detail tr:nth-of-type(2) td')
+    semester_element = soup.select_one('//*[@id="catalog-main-container"]/div[5]/div/div/div[2]/div[1]/div[4]')
     data['semester'] = semester_element.text.strip() if semester_element else "学期"
 
     data['genre'] = "授業ジャンル"  # 授業ジャンルの情報は取得できないので、"" で代用
-    data['description'] = soup.select_one('div.detail-text.white-space-pre-wrap').text.strip() if soup.select_one('div.detail-text.white-space-pre-wrap') else "授業説明"
+    data['description'] = soup.select_one('//*[@id="catalog-main-container"]/div[4]/div[2]').text.strip() if soup.select_one('//*[@id="catalog-main-container"]/div[4]/div[2]') else "授業説明"
     data['objectives'] = "目標"  # 授業目標の情報は取得できないので、"" で代用
-    data['content'] = "内容"  # 授業内容の情報は取得できないので、"" で代用
+    data['content'] = soup.select_one('//*[@id="catalog-main-container"]/div[6]/div/div[1]/div[2]/div').text.strip() if soup.select_one('//*[@id="catalog-main-container"]/div[6]/div/div[1]/div[2]/div') else "内容"    
     data['instructor_id'] = "教授id"  # 教授の ID は取得できないので、"-" で代用
-    data['grading_criteria'] = "評価基準"  # 成績評価基準の情報は取得できないので、"" で代用
+    data['grading_criteria'] = soup.select_one('//*[@id="catalog-main-container"]/div[6]/div/div[1]/div[2]/div').text.strip() if soup.select_one('//*[@id="catalog-main-container"]/div[6]/div/div[1]/div[2]/div') else "評価基準"      
     data['examination_format'] = "試験形式"  # 試験形式の情報は取得できないので、"" で代用
 
-    teaching_method_element = soup.select_one('table.detail tr:nth-of-type(1) td')
+    teaching_method_element = soup.select_one('//*[@id="catalog-main-container"]/div[6]/div/div[2]/div[2]/div')
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
     if not period_day:
