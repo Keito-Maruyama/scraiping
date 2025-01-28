@@ -44,31 +44,32 @@ def extract_data(soup):
     data['id'] = "id"  # UUID はここでは生成できないので、"-" で代用
     data['course_name'] = soup.select_one('h1.color-jd').text.strip() if soup.select_one('h1.color-jd') else "-"
     
-    course_code_element = soup.select_one('.catalog-row')
-    data['course_code'] = course_code_element.text.strip() if soup.select_one('catalog-row') else "授業コード"
+    course_code_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)')
+    data['course_code'] = course_code_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)') else "授業コード"
     
     data['department_id'] = "所属学部・学科のID"  # 所属学部・学科の ID は取得できないので、"-" で代用
     
-    semester_element = soup.select_one('catalog-page-detail-table-cell semester-cell')
+    semester_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.semester-cell')
     data['semester'] = semester_element.text.strip() if semester_element else "学期"
 
     data['genre'] = "授業ジャンル"  # 授業ジャンルの情報は取得できないので、"" で代用
    
-    description_element = soup.select_one('.catalog-page-detail-lecture-aim')
+    description_element = soup.select_one('#catalog-main-container > div.catalog-page-common-container > div.catalog-page-detail-lecture-aim')
     data['description'] = description_element.text.strip() if description_element else "授業説明"
     
     data['objectives'] = "目標"  # 授業目標の情報は取得できないので、"" で代用
     
-    content_element = soup.select_one('catalog-page-detail-card-body')
-    data['content'] = content_element.text.strip() if soup.select_one('catalog-page-detail-card-body') else "内容"    
+    content_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(1) > div.catalog-page-detail-card-body > div')
+    data['content'] = content_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(1) > div.catalog-page-detail-card-body > div') else "内容"    
     
     data['instructor_id'] = "教授id"  # 教授の ID は取得できないので、"-" で代用
-    grading_criteria_element = soup.select_one('catalog-page-detail-card-body')
-    data['grading_criteria'] = grading_criteria_element.text.strip() if soup.select_one('catalog-page-detail-card-body') else "評価基準"      
+    
+    grading_criteria_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(3) > div.catalog-page-detail-card-body > div')
+    data['grading_criteria'] = grading_criteria_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(3) > div.catalog-page-detail-card-body > div') else "評価基準"      
     
     data['examination_format'] = "試験形式"  # 試験形式の情報は取得できないので、"" で代用
 
-    teaching_method_element = soup.select_one('catalog-page-detail-card-body')
+    teaching_method_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(2) > div.catalog-page-detail-card-body > div')
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
     if not period_day:
