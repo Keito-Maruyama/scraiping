@@ -43,14 +43,19 @@ def extract_data(soup):
     data = {}
     data['id'] = "id"  # UUID はここでは生成できないので、"-" で代用
     data['course_name'] = soup.select_one('h1.color-jd').text.strip() if soup.select_one('h1.color-jd') else "-"
-    data['course_code'] = soup.select_one('catalog-row').text.strip() if soup.select_one('catalog-row') else "授業コード"
+    course_code_element = soup.select_one('.catalog-row')
+    data['course_code'] = course_code_element.text.strip() if soup.select_one('catalog-row') else "授業コード"
+    
     data['department_id'] = "所属学部・学科のID"  # 所属学部・学科の ID は取得できないので、"-" で代用
     
     semester_element = soup.select_one('catalog-page-detail-table-cell semester-cell')
     data['semester'] = semester_element.text.strip() if semester_element else "学期"
 
     data['genre'] = "授業ジャンル"  # 授業ジャンルの情報は取得できないので、"" で代用
-    data['description'] = soup.select_one('catalog-page-detail-lecture-aim') else "授業説明"
+   
+    description_element = soup.select_one('.catalog-page-detail-lecture-aim')
+    data['description'] = description_element.text.strip() if description_element else "授業説明"
+    
     data['objectives'] = "目標"  # 授業目標の情報は取得できないので、"" で代用
     data['content'] = soup.select_one('catalog-page-detail-card-body').text.strip() if soup.select_one('catalog-page-detail-card-body') else "内容"    
     data['instructor_id'] = "教授id"  # 教授の ID は取得できないので、"-" で代用
