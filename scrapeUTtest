@@ -44,13 +44,13 @@ def extract_data(soup):
     data['id'] = "id"  # UUID はここでは生成できないので、"-" で代用
     data['course_name'] = soup.select_one('h1.color-jd').text.strip() if soup.select_one('h1.color-jd') else "-"
     
-    course_code_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)')
-    data['course_code'] = course_code_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)') else "授業コード"
+    course_code_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)')
+    data['course_code'] = course_code_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.code-cell > div:nth-child(2)') else "授業コード"
     
     data['department_id'] = "所属学部・学科のID"  # 所属学部・学科の ID は取得できないので、"-" で代用
     
-    semester_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.semester-cell')
-    data['semester'] = semester_element.text.strip() if semester_element else "学期"
+    semester_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.semester-cell > span')
+    data['semester'] = semester_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.semester-cell > span') else "学期"
 
     data['genre'] = "授業ジャンル"  # 授業ジャンルの情報は取得できないので、"" で代用
    
@@ -72,7 +72,7 @@ def extract_data(soup):
     teaching_method_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(2) > div.catalog-page-detail-card-body > div')
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
-    class_days_period_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell') 
+    class_days_period_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell') 
     data['class_days_period'] = class_days_period_element.text.strip() if class_days_period_element else "時限"
 
     class_location_element = soup.select_one('table.detail tr:nth-of-type(3) td')
