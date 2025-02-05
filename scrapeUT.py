@@ -104,7 +104,7 @@ def save_to_csv(data, filename="database_test.csv"):
 if os.path.exists("database_test.csv"):
         os.remove("database_test.csv")
 
-for i in range(3):
+for i in range(100):
     id = i + 40001
     url = f"http://catalog.he.u-tokyo.ac.jp/jd-detail?code={id}&year=2024"
 
