@@ -72,12 +72,8 @@ def extract_data(soup):
     teaching_method_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(2) > div.catalog-page-detail-card-body > div')
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
-    if not period_day:
-        period_day = "曜日"
-    if not period_time:
-        period_time = "時限"
-    data['class_days'] = period_day
-    data['class_period'] = period_time
+    class_days_period_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40002 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell') 
+    data['class_days_period'] = class_days_period_element.text.strip() if class_days_period_element else "時限"
 
     class_location_element = soup.select_one('table.detail tr:nth-of-type(3) td')
     data['class_location'] = class_location_element.text.strip() if class_location_element else "授業場所"
