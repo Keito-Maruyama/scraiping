@@ -65,14 +65,14 @@ def extract_data(soup):
 
 
     period_element = soup.select_one('div.catalog_row:nth-of-type(1)> div:nth-child(5)')
-    #if period_element:
-    #    period_data = period_element[0].text.strip()  # リストの最初の要素にアクセス
-    #    period_day, period_time = extract_period_details(period_data)
-    #else:
-    #    period_day = "曜日"
-    period_time = "時限" 
-    data['class_days'] = period_element
-    data['class_period'] = period_time
+    if period_element:
+       period_data = period_element[0].text.strip()  # リストの最初の要素にアクセス
+       period_day, period_time = extract_period_details(period_data)
+    else:
+     period_day = "曜日"
+     period_time = "時限" 
+     data['class_days'] = period_element
+     data['class_period'] = period_time
 
 
     class_location_element = soup.select_one('table.detail tr:nth-of-type(3) td')
