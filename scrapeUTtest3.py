@@ -18,12 +18,10 @@ def parse_html(html):
     return BeautifulSoup(html, 'html.parser')
 
 def extract_period_details(period_data):
-    # period_data から曜日と時限を抽出する処理
-    # 例: "月曜2限" -> ["月曜", "2限"]
     try:
-        day = period_data[:-2]  # 最後の2文字（"限"）を削除
-        time = period_data[-2:]  # 最後の2文字（"限"を含む）を抽出
-        return [day, time]
+        period_day = period_data[:-2]  # 最後の2文字（"限"）を削除
+        period_time = period_data[-2:]  # 最後の2文字（"限"を含む）を抽出
+        return [period_day, period_time]  # 修正：直接抽出した値を返す
     except:
         return [None, None]  # 曜日と時限が取得できない場合は None を返す
 
@@ -64,16 +62,16 @@ def extract_data(soup):
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
 
-    period_element = soup.select_one('div.catalog_row:nth-of-type(1)> div:nth-child(5)')
+    period_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell')
     if period_element:
-       period_data = period_element[0].text.strip()  # リストの最初の要素にアクセス
-       period_day, period_time = extract_period_details(period_data)
+        period_data = period_element.text.strip()  # 修正：直接textプロパティにアクセス
+        period_day, period_time = extract_period_details(period_data)
     else:
-     period_day = "授業曜日"
-     period_time = "授業時限" 
-     data['class_days'] = period_day
-     data['class_period'] = period_time
+        period_day = "授業曜日"
+        period_time = "授業時限"
 
+    data['class_days'] = period_day
+    data['class_period'] = period_time
 
     class_location_element = soup.select_one('table.detail tr:nth-of-type(3) td')
     data['class_location'] = class_location_element.text.strip() if class_location_element else "授業場所"
