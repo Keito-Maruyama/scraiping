@@ -43,7 +43,7 @@ def extract_data(soup):
 
     data['genre'] = "授業ジャンル"  # 授業ジャンルの情報は取得できないので、"" で代用
    
-    description_element = soup.select_one('#catalog-main-container > div.catalog-page-common-container > div.catalog-page-detail-lecture-aim')
+    description_element = soup.find('div', class_=lambda x: x and ('lecture-aim' in x.lower() or 'description' in x.lower()))
     data['description'] = description_element.text.strip() if description_element else "授業説明"
     
     data['objectives'] = "目標"  # 授業目標の情報は取得できないので、"" で代用
@@ -62,9 +62,11 @@ def extract_data(soup):
     data['teaching_method'] = teaching_method_element.text.strip() if teaching_method_element else "授業方法"
 
 
-    period_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell')
-    if period_element:
-        period_data = period_element.text.strip()  # 修正：直接textプロパティにアクセス
+    # より汎用的なセレクター
+    period_elements = soup.select('#catalog-main-container > div.catalog-page-detail-scrollable-container.catalog-horizontal-scrollable-container > div > div > div.catalog-page-detail-table-row.catalog-table-row-in-mylist-2024-40001 > div.catalog-row > div.catalog-page-detail-table-cell.period-cell')
+
+    if period_elements and len(period_elements) > 0:
+        period_data = period_elements[0].text.strip()
         period_day, period_time = extract_period_details(period_data)
     else:
         period_day = "授業曜日"
