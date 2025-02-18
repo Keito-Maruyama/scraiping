@@ -69,9 +69,9 @@ def extract_data(soup):
        period_data = period_element[0].text.strip()  # リストの最初の要素にアクセス
        period_day, period_time = extract_period_details(period_data)
     else:
-     period_day = "曜日"
-     period_time = "時限" 
-     data['class_days'] = period_element
+     period_day = "授業曜日"
+     period_time = "授業時限" 
+     data['class_days'] = period_day
      data['class_period'] = period_time
 
 
