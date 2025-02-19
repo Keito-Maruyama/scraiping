@@ -48,8 +48,8 @@ def extract_data(soup):
     
     data['objectives'] = "目標"  # 授業目標の情報は取得できないので、"" で代用
     
-    content_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(1) > div.catalog-page-detail-card-body > div')
-    data['content'] = content_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(1) > div.catalog-page-detail-card-body > div') else "内容"    
+    content_element = soup.find('div', class_=lambda x: x and ('detail-card-body' in x.lower())).find('div') if soup.find('div', class_=lambda x: x and ('detail-card-body' in x.lower())) else None
+    data['content'] = content_element.text.strip() if content_element else "内容"
     
     data['instructor_id'] = "教授id"  # 教授の ID は取得できないので、"-" で代用
     
