@@ -53,8 +53,8 @@ def extract_data(soup):
     
     data['instructor_id'] = "教授id"  # 教授の ID は取得できないので、"-" で代用
     
-    grading_criteria_element = soup.find_all('div', class_=lambda x: x and ('detail-card-body' in x.lower()))[2].find('div') if len(soup.find_all('div', class_=lambda x: x and ('detail-card-body' in x.lower()))) >= 3 else None
-    data['grading_criteria'] = grading_criteria_element.text.strip() if grading_criteria_element else "評価基準"
+    grading_criteria_element = soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(3) > div.catalog-page-detail-card-body > div')
+    data['grading_criteria'] = grading_criteria_element.text.strip() if soup.select_one('#catalog-main-container > div.catalog-page-detail-card-container > div > div:nth-child(3) > div.catalog-page-detail-card-body > div') else "評価基準"      
     
     data['examination_format'] = "試験形式"  # 試験形式の情報は取得できないので、"" で代用
 
